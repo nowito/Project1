@@ -27,13 +27,13 @@ System::Void MyForm::OpenButton_Click(System::Object^  sender, System::EventArgs
 				this->LogBox->AppendText("\r\n**** Connected to " + ComSelect->Text + " at " + BaudSelect->Text + " Baud ****\r\n");
 				//open serial port 
 				this->progressBar1->Value = 100;
-				// Disable the init button
+				// Disable the init button 
 				this->OpenButton->Enabled = false;
 				this->ComSelect->Enabled = false;
 				this->BaudSelect->Enabled = false;
 				this->CloseButton->Enabled = true;
 				this->SendButton->Enabled = true;
-				AfterEvent();
+				AfterEvent(); // Send ctrl-x 
 			}
 			else
 				this->LogBox->AppendText("\r\nPort isn't openned\r\n");
@@ -46,7 +46,7 @@ System::Void MyForm::OpenButton_Click(System::Object^  sender, System::EventArgs
 
 System::Void MyForm::AfterEvent()
 {
-	auto data = gcnew array<System::Byte> {0x18};
+	auto data = gcnew array<System::Byte> {0x18}; //send ctrl-x
 	this->serialPort1->Write(data, 0, data->Length);
 }
 
@@ -139,7 +139,7 @@ System::Void MyForm::CloseButton_Click(System::Object^  sender, System::EventArg
 	{
 		if (this->serialPort1->IsOpen)
 		{
-			AfterEvent();
+			AfterEvent(); // send ctrl-x
 			/*auto data = gcnew array<System::Byte> {0x18};
 			this->serialPort1->Write(data, 0, data->Length);*/
 		}
